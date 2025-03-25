@@ -27,12 +27,12 @@ def send_alert(stock_name, curr_price, action):
 def check_stock_price():
     companies = {
         "TCS": {
-            "buy": 3700,
-            "sell": 3600
+            "buy": 3520,
+            "sell": 4400
         },
         "RELIANCE": {
-            "buy": 1300,
-            "sell": 1220
+            "buy": 1220,
+            "sell": 1550
         }
     }
     base_url = "https://groww.in/v1/api/stocks_data/v1/accord_points/exchange/NSE/segment/CASH/latest_prices_ohlc"
