@@ -1,0 +1,23 @@
+name: Run Python Script Every 10 Minutes (9 AM - 4 PM IST)
+
+on:
+  schedule:
+    - cron: '*/10 3-10 * * *'  # Runs every 10 minutes from 9 AM to 4 PM IST
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+      - name: Install dependencies (if needed)
+        run: pip install -r requirements.txt  # Optional
+      - name: Run script
+        env:
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+        run: python stock_alert.py
