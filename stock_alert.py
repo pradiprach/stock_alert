@@ -33,6 +33,18 @@ def check_stock_price():
         "RELIANCE": {
             "buy": 1220,
             "sell": 1550
+        },
+        "IRCTC": {
+            "buy": 670,
+            "sell": 900
+        },
+        "LICI": {
+            "buy": 700,
+            "sell": 900
+        },
+        "PAYTM": {
+            "buy": 500,
+            "sell": 750
         }
     }
     base_url = "https://groww.in/v1/api/stocks_data/v1/accord_points/exchange/NSE/segment/CASH/latest_prices_ohlc"
