@@ -20,4 +20,5 @@ jobs:
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          PYTHONUNBUFFERED: 1
         run: python stock_alert.py
