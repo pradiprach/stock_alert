@@ -40,7 +40,7 @@ def check_stock_price():
         },
         "LICI": {
             "buy": 700,
-            "sell": 900
+            "sell": 1020
         },
         "PAYTM": {
             "buy": 500,
