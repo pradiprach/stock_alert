@@ -26,10 +26,6 @@ def send_alert(stock_name, curr_price, action):
 
 def check_stock_price():
     companies = {
-        "TCS": {
-            "buy": 3200,
-            "sell": 4400
-        },
         "RELIANCE": {
             "buy": 1220,
             "sell": 1550
