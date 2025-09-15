@@ -41,6 +41,10 @@ def check_stock_price():
         "PAYTM": {
             "buy": 500,
             "sell": 1400
+        },
+        "OLAELEC": {
+            "buy": 40,
+            "sell": 100
         }
     }
     base_url = "https://groww.in/v1/api/stocks_data/v1/accord_points/exchange/NSE/segment/CASH/latest_prices_ohlc"
