@@ -41,6 +41,10 @@ def check_stock_price():
         "OLAELEC": {
             "buy": 32,
             "sell": 45
+        },
+        "INDIGO": {
+            "buy": 4600,
+            "sell": 5500
         }
     }
     base_url = "https://groww.in/v1/api/stocks_data/v1/accord_points/exchange/NSE/segment/CASH/latest_prices_ohlc"
