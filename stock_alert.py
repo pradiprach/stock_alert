@@ -43,7 +43,7 @@ def check_stock_price():
             "sell": 43
         },
         "INDIGO": {
-            "buy": 4600,
+            "buy": 4200,
             "sell": 5500
         }
     }
