@@ -74,9 +74,9 @@ def check_stock_price():
         response =  requests.get(url=f"{base_url}/{company}")
         share_price = int(response.json()["ltp"])
         print(f"Company: {company}, Current Price: {share_price}")
-        if companies[company]["buy"] > share_price:
+        if companies[company]["buy"] >= share_price:
             send_telegram_msg(company, share_price, "BUY")
-        elif companies[company]["sell"] < share_price:
+        elif companies[company]["sell"] <= share_price:
             send_telegram_msg(company, share_price, "SELL")
 
 
