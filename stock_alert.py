@@ -61,7 +61,7 @@ def check_stock_price():
             "sell": 1020
         },
         "OLAELEC": {
-            "buy": 28,
+            "buy": 25,
             "sell": 43
         },
         "INDIGO": {
