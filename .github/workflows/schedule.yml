@@ -21,5 +21,7 @@ jobs:
           SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
           SMTP_EMAIL: ${{ secrets.SMTP_EMAIL }}
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           PYTHONUNBUFFERED: 1
         run: python stock_alert.py
