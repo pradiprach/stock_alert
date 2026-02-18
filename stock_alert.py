@@ -23,6 +23,28 @@ def send_alert(stock_name, curr_price, action):
         connection.login(user=my_email, password=password)
         connection.sendmail(from_addr=my_email, to_addrs=to_email, msg=message.as_string())
 
+def send_telegram_msg(stock_name, curr_price, action):
+    # Your credentials
+    token = os.environ.get("TELEGRAM_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")  # Use the negative ID for groups
+
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    message = f"{action} {stock_name} with current price: {curr_price}"
+    payload = {
+        "chat_id": chat_id,
+        "text": message,
+        "parse_mode": "Markdown"
+    }
+
+    try:
+        response = requests.post(url, json=payload)
+        if response.status_code == 200:
+            print("Message sent to family!")
+        else:
+            print(f"Failed to send: {response.text}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
 def check_stock_price():
     companies = {
@@ -53,9 +75,9 @@ def check_stock_price():
         share_price = int(response.json()["ltp"])
         print(f"Company: {company}, Current Price: {share_price}")
         if companies[company]["buy"] > share_price:
-            send_alert(company, share_price, "BUY")
+            send_telegram_msg(company, share_price, "BUY")
         elif companies[company]["sell"] < share_price:
-            send_alert(company, share_price, "SELL")
+            send_telegram_msg(company, share_price, "SELL")
 
 
 if __name__ == "__main__":
