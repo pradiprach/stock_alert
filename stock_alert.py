@@ -53,7 +53,7 @@ def check_stock_price():
             "sell": 1600
         },
         "IRCTC": {
-            "buy": 580,
+            "buy": 550,
             "sell": 900
         },
         "LICI": {
