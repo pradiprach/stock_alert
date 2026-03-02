@@ -67,6 +67,10 @@ def check_stock_price():
         "INDIGO": {
             "buy": 4200,
             "sell": 5500
+        },
+        "SILVER": {
+            "buy": 220,
+            "sell": 350
         }
     }
     base_url = "https://groww.in/v1/api/stocks_data/v1/accord_points/exchange/NSE/segment/CASH/latest_prices_ohlc"
