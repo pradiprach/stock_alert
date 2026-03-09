@@ -132,6 +132,11 @@ def create_scheduler():
 
     scheduler.start()
 
+@app.route("/health", methods=["GET"])
+def health():
+    return jsonify({
+        "status"    : "ok"
+    })
 
 @app.route('/login', methods=['POST'])
 def login():
