@@ -53,7 +53,7 @@ def check_stock_price():
             "sell": 1600
         },
         "IRCTC": {
-            "buy": 550,
+            "buy": 500,
             "sell": 900
         },
         "LICI": {
@@ -65,7 +65,7 @@ def check_stock_price():
             "sell": 43
         },
         "INDIGO": {
-            "buy": 4200,
+            "buy": 3800,
             "sell": 5500
         },
         "SILVER": {
