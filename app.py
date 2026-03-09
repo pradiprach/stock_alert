@@ -270,7 +270,7 @@ def update_stock_entry_status(id):
 @app.route('/stocks', methods=['GET'])
 def get_all_stocks():
     try:
-        refresh = bool(requests.args.get("refresh"))
+        refresh = bool(request.args.get("refresh"))
         if refresh:
             load_stocks()
         stocks_with_prices = []
