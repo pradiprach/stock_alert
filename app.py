@@ -227,8 +227,8 @@ def update_stock_entry_values(id):
     if not data:
         return jsonify({'error': 'Invalid request'}), 400
     
-    buy_price = data.get('buy_price')
-    sell_price = data.get('sell_price')
+    buy_price = float(data.get('buy_price'))
+    sell_price = float(data.get('sell_price'))
 
     if buy_price is None or sell_price is None:
         return jsonify({'error': 'Missing required fields'}), 400
