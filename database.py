@@ -76,7 +76,7 @@ def add_stock(name: str, sell_price: float, buy_price: float):
             "name": name,
             "sell_price": sell_price,
             "buy_price": buy_price,
-            "status": 0
+            "status": 1
         }).execute()
         return response.data
     except Exception as e:
