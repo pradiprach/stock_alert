@@ -318,11 +318,12 @@ def internal_error(e):
     return jsonify({'error': 'Internal server error'}), 500
 
 
+init_db()
+load_stocks()
+create_scheduler()
+
 if __name__ == '__main__':
     try:
-        init_db()
-        load_stocks()
-        create_scheduler()
         logger.info("Application started successfully")
         app.run(host='0.0.0.0', port=int(os.getenv('PORT', 5000)), debug=False)
     except Exception as e:
