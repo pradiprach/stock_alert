@@ -11,6 +11,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from flask_cors import CORS
 from dotenv import load_dotenv
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 load_dotenv()
 
@@ -81,6 +82,14 @@ def send_telegram_msg(stock_name, curr_price, action):
     except requests.RequestException as e:
         logger.error(f"Failed to send Telegram message: {e}")
         return False
+
+def fetch_with_price(stock):
+    stock_copy = stock.copy()
+    try:
+        stock_copy["current_price"] = get_stock_price(stock["name"])
+    except Exception:
+        stock_copy["current_price"] = None
+    return stock_copy
 
 
 IST = pytz.timezone("Asia/Kolkata")
@@ -270,40 +279,13 @@ def update_stock_entry_status(id):
 @app.route('/stocks', methods=['GET'])
 def get_all_stocks():
     try:
-        refresh = bool(request.args.get("refresh"))
-        if refresh:
+        if request.args.get("refresh"):
             load_stocks()
-        stocks_with_prices = []
-        for stock in STOCKS:
-            stock_copy = stock.copy()
-            try:
-                stock_copy["current_price"] = get_stock_price(stock["name"])
-            except Exception as e:
-                logger.warning(f"Failed to fetch price for {stock['name']}: {e}")
-                stock_copy["current_price"] = None
-            stocks_with_prices.append(stock_copy)
-        return jsonify(stocks_with_prices), 200
+        with ThreadPoolExecutor(max_workers=5) as ex:
+            results = list(ex.map(fetch_with_price, STOCKS))
+        return jsonify(results), 200
     except Exception as e:
         logger.error(f"Get stocks error: {str(e)}")
-        return jsonify({'error': 'Internal server error'}), 500
-
-
-@app.route('/stock/refresh', methods=['GET'])
-def refresh_stocks():
-    try:
-        load_stocks()
-        stocks_with_prices = []
-        for stock in STOCKS:
-            stock_copy = stock.copy()
-            try:
-                stock_copy["current_price"] = get_stock_price(stock["name"])
-            except Exception as e:
-                logger.warning(f"Failed to fetch price for {stock['name']}: {e}")
-                stock_copy["current_price"] = None
-            stocks_with_prices.append(stock_copy)
-        return jsonify(stocks_with_prices), 200
-    except Exception as e:
-        logger.error(f"Refresh stocks error: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
 
 
