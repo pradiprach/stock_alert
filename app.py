@@ -6,7 +6,7 @@ import pytz
 from flask import Flask, request, jsonify
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-from database import init_db, get_user_by_username, update_last_login, get_user_by_id, add_stock, update_stock_status, get_stocks, update_stock_prices
+from database import init_db, get_user_by_username, update_last_login, get_user_by_id, add_stock, update_stock_status, get_stocks, update_stock_prices, delete_stock
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from flask_cors import CORS
@@ -275,6 +275,15 @@ def update_stock_entry_status(id):
         logger.error(f"Update stock error: {str(e)}")
         return jsonify({'error': 'Internal server error'}), 500
 
+
+@app.route('/stock/<int:id>', methods=['DELETE'])
+def remove_stock(id):
+    try:
+        delete_stock(id)
+        return jsonify({'message': 'Stock deleted successfully'}), 200
+    except Exception as e:
+        logger.error(f"Delete stock error: {str(e)}")
+        return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/stocks', methods=['GET'])
 def get_all_stocks():

@@ -115,3 +115,10 @@ def get_stocks():
     except Exception as e:
         logger.error(f"Error fetching stocks: {e}")
         raise
+
+def delete_stock(id: int) -> bool:
+    """
+    Delete a stock record by id.
+    """
+    supabase.table("stocks").delete().eq("id", id).execute()
+    return True
