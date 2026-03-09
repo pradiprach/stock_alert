@@ -95,6 +95,18 @@ def update_stock_status(id: int, status: int):
         raise
 
 
+def update_stock_prices(buy_price: float, sell_price: float):
+    """Update stock status."""
+    try:
+        supabase.table("stocks").update({
+            "buy_price": buy_price,
+            "sell_price": sell_price
+        }).eq("id", id).execute()
+    except Exception as e:
+        logger.error(f"Error updating stock status: {e}")
+        raise
+
+
 def get_stocks():
     """Get all stocks from the database."""
     try:

@@ -6,7 +6,7 @@ import pytz
 from flask import Flask, request, jsonify
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
-from database import init_db, get_user_by_username, update_last_login, get_user_by_id, add_stock, update_stock_status, get_stocks
+from database import init_db, get_user_by_username, update_last_login, get_user_by_id, add_stock, update_stock_status, get_stocks, update_stock_prices
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from flask_cors import CORS
@@ -221,6 +221,27 @@ def add_stock_entry():
         return jsonify({'error': 'Internal server error'}), 500
 
 
+@app.route('/stock/prices/<int:id>', methods=['PUT'])
+def update_stock_entry_values(id):
+    data = request.get_json()
+    if not data:
+        return jsonify({'error': 'Invalid request'}), 400
+    
+    buy_price = data.get('buy_price')
+    sell_price = data.get('sell_price')
+
+    if buy_price is None or sell_price is None:
+        return jsonify({'error': 'Missing required fields'}), 400
+
+    try:
+        update_stock_prices(buy_price, sell_price)
+        load_stocks()
+        return jsonify({'message': 'Stock updated successfully'}), 200
+    except Exception as e:
+        logger.error(f"Update stock error: {str(e)}")
+        return jsonify({'error': 'Internal server error'}), 500
+
+
 @app.route('/stock/<int:id>', methods=['PUT'])
 def update_stock_entry_status(id):
     data = request.get_json()
@@ -249,6 +270,9 @@ def update_stock_entry_status(id):
 @app.route('/stocks', methods=['GET'])
 def get_all_stocks():
     try:
+        refresh = bool(requests.args.get("refresh"))
+        if refresh:
+            load_stocks()
         stocks_with_prices = []
         for stock in STOCKS:
             stock_copy = stock.copy()
