@@ -95,7 +95,7 @@ def update_stock_status(id: int, status: int):
         raise
 
 
-def update_stock_prices(buy_price: float, sell_price: float):
+def update_stock_prices(id: int, buy_price: float, sell_price: float):
     """Update stock status."""
     try:
         supabase.table("stocks").update({

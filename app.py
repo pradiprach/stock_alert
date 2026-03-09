@@ -243,7 +243,7 @@ def update_stock_entry_values(id):
         return jsonify({'error': 'Missing required fields'}), 400
 
     try:
-        update_stock_prices(buy_price, sell_price)
+        update_stock_prices(id, buy_price, sell_price)
         load_stocks()
         return jsonify({'message': 'Stock updated successfully'}), 200
     except Exception as e:
