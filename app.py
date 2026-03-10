@@ -96,6 +96,7 @@ IST = pytz.timezone("Asia/Kolkata")
 
 
 def check_stock():
+    logger.info("Started Running scheduled task")
     for stock in STOCKS:
         if stock["status"] == 0:
             continue
@@ -103,12 +104,12 @@ def check_stock():
             current_price = get_stock_price(stock["name"])
             if current_price >= stock["sell_price"]:
                 send_telegram_msg(stock["name"], current_price, "SELL")
-            elif stock["buy_price"] >= current_price:
+            elif stock["buy_price"] <= current_price:
                 send_telegram_msg(stock["name"], current_price, "BUY")
         except Exception as e:
             logger.error(f"Error processing {stock['name']}: {e}")
             continue
-    print("Running scheduled task")
+    logger.info("Finished Running scheduled task")
 
 
 def create_scheduler():
